@@ -9,14 +9,10 @@ public class  Position extends JButton implements ActionListener, MouseListener 
     private boolean isBomb=false;
     private boolean isOpened=false;
     private boolean isFlagged=false;
-    //Every cell triggers # of flags and safe moves in entire grid.
-    //This could be some kinda logic fallacy.
-    private int flagCount=0;
-    private int safeMoveCount=0;
-    private Position[][] parentCells;
 
-    public boolean isBomb(){
-        return isBomb;
+    public boolean isBomb(){return isBomb;}
+    public void setBomb(boolean flag){
+        isBomb=flag;
     }
     public boolean isFlagged(){
         return isFlagged;
@@ -24,110 +20,63 @@ public class  Position extends JButton implements ActionListener, MouseListener 
     public void setFlagged(boolean flag){
         this.isFlagged=flag;
     }
-    public void setBomb(boolean flag){
-        isBomb=flag;
+    public void setOpened(boolean opened) {isOpened = opened;}
+    public boolean isOpened(){return isOpened;}
+    public void setRow(int row) {this.row = row;}
+    public int getRow() {return row;}
+    public void setCol(int col) {this.col = col;}
+    public int getCol() {return col;}
+    public void setNeighborCount(int neighborCount) {this.neighborCount = neighborCount;}
+    public int getNeighborCount() {return neighborCount;}
+
+    public static void callOpenFromGrid(Position cell){
+        open(cell);
     }
 
-    public void open(){
-        this.isOpened=true;
-        this.safeMoveCount++;
-        if (this.neighborCount==0){
-            //Reveal every nearby empty cells
-            this.foodFill(this.parentCells, this.row, this.col);
-        }
-        //Add color, font
-        this.setText(String.valueOf(neighborCount));
-    }
-    public void countBombs(Position [][] cells,int row,int col){
-        this.row=row;
-        this.col=col;
-        int vertexCount = cells.length;
-        int edgeCount = cells[0].length;
-        int [] points = {-1,-1,-1,0,-1,1,0,-1,0,1,1,-1,1,0,1,1};
-        int dx,dy,neigborRow,neigborCol;
-        for(int i=0;i<points.length;i++){
-            dx=points[i];
-            dy=points[++i];
-            neigborRow=row+dx;
-            neigborCol=col+dy;
-            if(neigborRow>=0 && neigborRow<vertexCount && neigborCol>=0 && neigborCol<edgeCount){
-                System.out.println("I am Here ");
-                System.out.println(cells[neigborRow][neigborCol].isBomb);
-                //Check for existence of the bomb in nearby cells
-                if(cells[neigborRow][neigborCol].isBomb){
-                    this.neighborCount+=1;
-                    System.out.println("I am counting ");
-                    System.out.println(this.neighborCount);
-                    this.setText(String.valueOf(neighborCount));
-                }
-            }
-        }
-        //For initial test
-        this.parentCells=cells;
+    public static void CallIncremFlagCount(boolean status){
+        if(status==true){IncremFlagCount(true);}
+        IncremFlagCount(false);
     }
 
-    public void foodFill(Position [][] cells,int row,int col){
-        this.row=row;
-        this.col=col;
-        int vertexCount = cells.length;
-        int edgeCount = cells[0].length;
-        int [] points = {-1,-1,-1,0,-1,1,0,-1,0,1,1,-1,1,0,1,1};
-        int dx,dy,neigborRow,neigborCol;
-        for(int i=0;i<points.length;i++){
-            dx=points[i];
-            dy=points[++i];
-            neigborRow=row+dx;
-            neigborCol=col+dy;
-            if(neigborRow>=0 && neigborRow<vertexCount && neigborCol>=0 && neigborCol<edgeCount){
-                //Check for existence of the bomb in nearby cells
-                if(cells[neigborRow][neigborCol].neighborCount!=0){
-                    this.isOpened=true;
-                    //Add color, font
-                    this.setText(String.valueOf(neighborCount));
-                }
-            }
-        }
+    public static void main(String [] args){
+        Position cell = new Position();
+        callOpenFromGrid(cell);
     }
-
     @Override
     public void actionPerformed(ActionEvent arg0){}
     @Override
     public void mouseClicked(MouseEvent e) {
-        int totalBombs=20;
+        Position cell = this;
         System.out.println("Event has fired! ");
         if(e.getButton()== MouseEvent.BUTTON1){
             if (this.isBomb()) {
 //              gameOver();
                 System.out.println("Game over!");
+                //Disable screen
+                //Pop up window
             }
-            this.open();
-            if(this.safeMoveCount==totalBombs-this.flagCount){
-
+            else{
+//                callOpenFromGrid(cell);
             }
         }
         if(e.getButton()==MouseEvent.BUTTON3){
-            if(this.isFlagged()==false){
-                this.setFlagged(true);
-                this.flagCount++;
-                System.out.println("First stat!");
-                ImageIcon icon = new ImageIcon("resources/flag.png");
-                Image img = icon.getImage() ;
-                Image newimg = img.getScaledInstance( 30, 30,  Image.SCALE_AREA_AVERAGING ) ;
-                icon = new ImageIcon( newimg );
-                this.setIcon(icon);
-
+            if(!this.isOpened && !this.isBomb){
+                if(this.isFlagged()==false){
+                    this.setFlagged(true);
+//                    grid.flagCount++;
+                    //CallIncremFlagCount();
+                    ImageIcon icon = new ImageIcon("resources/flag.png");
+                    Image img = icon.getImage() ;
+                    Image newimg = img.getScaledInstance( 30, 30,  Image.SCALE_AREA_AVERAGING ) ;
+                    icon = new ImageIcon( newimg );
+                    this.setIcon(icon);
+                }
+                else if(this.isFlagged()==true){
+                    this.setIcon(null);
+                    this.setFlagged(false);
+//                    grid.flagCount--;
+                }
             }
-            else if(this.isFlagged()==true){
-//                System.out.println("I am here");
-                this.setIcon(null);
-                this.setFlagged(false);
-                this.flagCount--;
-                System.out.println("Second stat!");
-            }
-
-
-            System.out.println("Next move!");
-
         }
     }
     @Override
@@ -140,3 +89,8 @@ public class  Position extends JButton implements ActionListener, MouseListener 
     public void mouseReleased(MouseEvent e) {
     }
 }
+
+//Disable screen
+//Pop up window
+//Add timer
+//Refresh button!

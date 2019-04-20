@@ -14,10 +14,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Position.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+            <state relative-caret-position="227">
+              <caret line="66" column="44" selection-start-line="66" selection-start-column="44" selection-end-line="66" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1075#1076#0" expanded="true" />
+                <element signature="e#1101#1102#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -38,7 +40,6 @@
       <find>reveal</find>
       <find>count</find>
       <find>edgeve</find>
-      <find>open</find>
       <find>open.</find>
       <find>mousecl</find>
       <find>isbomb</find>
@@ -47,6 +48,11 @@
       <find>counter</find>
       <find>countB</find>
       <find>i am here</find>
+      <find>sys</find>
+      <find>opened</find>
+      <find>open</find>
+      <find>call</find>
+      <find>increm</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -60,10 +66,10 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="420" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="278" />
     <option name="y" value="24" />
-    <option name="width" value="928" />
+    <option name="width" value="1061" />
     <option name="height" value="678" />
   </component>
   <component name="ProjectView">
@@ -71,6 +77,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -87,12 +94,11 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555514517743" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555729535927" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -134,9 +140,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="24" width="1368" height="696" extended-state="6" />
+    <frame x="278" y="24" width="1061" height="678" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16837482" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19169028" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -150,7 +157,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.20652173" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.2284345" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.54037267" />
@@ -197,8 +204,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="15" column="21" lean-forward="true" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+        <state relative-caret-position="165">
+          <caret line="25" column="48" lean-forward="true" selection-start-line="25" selection-start-column="48" selection-end-line="25" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#511#512#0" expanded="true" />
@@ -209,8 +216,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Grid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="46" column="55" lean-forward="true" selection-start-line="46" selection-start-column="55" selection-end-line="46" selection-end-column="55" />
+        <state relative-caret-position="225">
+          <caret line="15" column="29" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -219,10 +226,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Position.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+        <state relative-caret-position="227">
+          <caret line="66" column="44" selection-start-line="66" selection-start-column="44" selection-end-line="66" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1075#1076#0" expanded="true" />
+            <element signature="e#1101#1102#0" expanded="true" />
           </folding>
         </state>
       </provider>

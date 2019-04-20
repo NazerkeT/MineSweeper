@@ -7,31 +7,94 @@ import java.util.Random;
 
 public class  Grid implements ActionListener {
     Container grid = new Container();
-    private Position[][] cells;
+    public static Position[][] cells;
     private ArrayList<int []> options=new ArrayList<>();
-    private int totalNumOfBombs=20;
+    private static final int totalNumOfBombs=20;
+    public static int flagCount=0;
+    public static int safeMoveCount=0;
+
+    public static void IncremFlagCout(boolean status){
+        if(status==true){flagCount++;}
+        flagCount--;
+    }
+
+    public static void open(Position cell){
+        cell.setOpened(true);
+        safeMoveCount++;
+        if (cell.getNeighborCount()==0){
+            //Reveal every nearby empty cells
+            foodFill(cells, cell.getRow(), cell.getCol());
+        }
+        //Add color, font
+        cell.setText(String.valueOf(cell.getNeighborCount()));
+        if(safeMoveCount==totalNumOfBombs-flagCount){
+            System.out.println("You won!");
+            //Disable screen
+            //Pop up window
+        }
+    }
+
+    public static void foodFill(Position [][] cells,int row,int col){
+        int vertexCount = cells.length;
+        int edgeCount = cells[0].length;
+        int [] points = {-1,-1,-1,0,-1,1,0,-1,0,1,1,-1,1,0,1,1};
+        int dx,dy,neigborRow,neigborCol;
+        for(int i=0;i<points.length;i++){
+            dx=points[i];
+            dy=points[++i];
+            neigborRow=row+dx;
+            neigborCol=col+dy;
+            if(neigborRow>=0 && neigborRow<vertexCount && neigborCol>=0 && neigborCol<edgeCount){
+                if(!cells[neigborRow][neigborCol].isOpened()){
+                    cells[neigborRow][neigborCol].setOpened(true);
+                    open(cells[neigborRow][neigborCol]);
+                    //Add color, font
+                }
+
+            }
+        }
+    }
+
+    public void countBombs(Position [][] cells, int row, int col){
+        Position cell = cells[row][col];
+        int vertexCount = cells.length;
+        int edgeCount = cells[0].length;
+        int [] points = {-1,-1,-1,0,-1,1,0,-1,0,1,1,-1,1,0,1,1};
+        int dx,dy,neigborRow,neigborCol;
+        for(int i=0;i<points.length;i++){
+            dx=points[i];
+            dy=points[++i];
+            neigborRow=row+dx;
+            neigborCol=col+dy;
+            if(neigborRow>=0 && neigborRow<vertexCount && neigborCol>=0 && neigborCol<edgeCount){
+                //Check for existence of the bomb in nearby cells
+                if(!cells[row][col].isBomb()){
+                    if(cells[neigborRow][neigborCol].isBomb()){
+                        cell.setNeighborCount(cell.getNeighborCount()+1);
+                    }
+                }
+
+            }
+        }
+    }
+
     private void buildGraph(int vertexCount,int edgeCount){
-        int k=0;
         for (int i=0;i<vertexCount;i++){
             for (int j=0;j<edgeCount;j++){
                 //Build a options array, which will save in it, all cell pos combinations
                 // with the purpose of using it random bomb distribution
                 options.add(new int[]{i,j});
-                k++;
             }
         }
 
         for (int i=0; i<totalNumOfBombs;i++){
             Random rand = new Random();
             int index = rand.nextInt(options.size());
-//            System.out.println("Random Index "+index);
-
             int [] choice = new int[2];
             choice[0]=options.get(index)[0];
             choice[1]=options.get(index)[1];
 
             cells[choice[0]][choice[1]].setBomb(true);
-//            System.out.println("Is bomb? "+cells[choice[0]][choice[1]].isBomb());
 
             ImageIcon icon = new ImageIcon("resources/bomb.png");
             Image img = icon.getImage() ;
@@ -44,7 +107,7 @@ public class  Grid implements ActionListener {
         for (int i=0; i<vertexCount;i++){
             for(int j=0;j<edgeCount;j++){
                 //In the same loop, number of nearby bombs calculated to each cell!
-                cells[i][j].countBombs(this.cells,i,j);
+                this.countBombs(this.cells,i,j);
             }
         }
 
@@ -62,12 +125,10 @@ public class  Grid implements ActionListener {
             }
         }
         buildGraph(vertexCount,edgeCount);
-//        buildGraph(vertexCount, edgeCount);
         frame.add(grid,BorderLayout.CENTER);
         frame.setVisible(true);
-        //Dimension dimension = getToolkit().getScreenSize();
-        //setBounds(dimension.width / 2 - 250, dimension.height / 2 - 200, 500, 400);
     }
+    Grid(){}
     @Override
     public void actionPerformed(ActionEvent arg0){}
 
