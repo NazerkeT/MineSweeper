@@ -6,37 +6,55 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class  Grid implements ActionListener {
-    Container grid = new Container();
-    public static Position[][] cells;
+    private Container grid = new Container();
     private ArrayList<int []> options=new ArrayList<>();
     private static int totalNumOfBombs=20;
     private static int vertexCount=9;
     private static int edgeCount=9;
-    public static int flagCount=0;
-    public static int safeMoveCount=0;
+    private static Position[][] cells;
+    private static int flagCount=0;
+    private static int safeMoveCount=0;
+
+    public static void setSafeMoveCount(int safeMoveCount){Grid.safeMoveCount = safeMoveCount;}
+    public static void setFlagCount(int flagCount){Grid.flagCount = flagCount;}
+    public static void setEdgeCount(int edgeCount){Grid.edgeCount = edgeCount;}
+    public static void setVertexCount(int vertexCount){Grid.vertexCount = vertexCount;}
+    public static void setTotalNumOfBombs(int totalNumOfBombs){Grid.totalNumOfBombs = totalNumOfBombs;}
 
     public static void IncremFlagCount(boolean status){
-        if(status==true){flagCount++;totalNumOfBombs--;
-
+        if(status){
+            flagCount++;
+            totalNumOfBombs--;
         }
-        else {flagCount--;
-        totalNumOfBombs++;}
+        else {
+            flagCount--;
+            totalNumOfBombs++;
+        }
     }
 
-    public static void open(Position cell){
+    public static void openSafeCell(Position cell, boolean isSafe){
         cell.setOpened(true);
-        safeMoveCount++;
-        if (cell.getNeighborCount()==0){
-            //Reveal every nearby empty cells
-            foodFill(cells, cell.getRow(), cell.getCol());
+        if(isSafe){
+            safeMoveCount++;
+            if (cell.getNeighborCount()==0){
+                //Reveal every nearby empty cells
+                foodFill(cells, cell.getRow(), cell.getCol());
+            }
+            //Add color, font
+            cell.setText(String.valueOf(cell.getNeighborCount()));
+            System.out.println("safeMoveCount: "+safeMoveCount);
+            System.out.println("totalNumOfBombs: "+totalNumOfBombs);
+            System.out.println("flagCount: "+flagCount);
+            System.out.println("Cells Left To Win: "+(vertexCount*edgeCount-totalNumOfBombs-flagCount));
+            if(safeMoveCount==vertexCount*edgeCount-totalNumOfBombs-flagCount){
+                System.out.println("You won!");
+                Main.keepRecords(true);
+                //Disable screen
+                //Pop up window
+            }
         }
-        //Add color, font
-        cell.setText(String.valueOf(cell.getNeighborCount()));
-        if(safeMoveCount==vertexCount*edgeCount-totalNumOfBombs-flagCount){
-            System.out.println("You won!");
-            //Reset everything
-            //Disable screen
-            //Pop up window
+        else{
+            Main.keepRecords(false);
         }
     }
 
@@ -53,7 +71,7 @@ public class  Grid implements ActionListener {
             if(neigborRow>=0 && neigborRow<vertexCount && neigborCol>=0 && neigborCol<edgeCount){
                 if(!cells[neigborRow][neigborCol].isOpened()){
                     cells[neigborRow][neigborCol].setOpened(true);
-                    open(cells[neigborRow][neigborCol]);
+                    openSafeCell(cells[neigborRow][neigborCol],true);
                     //Add color, font
                 }
 
@@ -61,7 +79,7 @@ public class  Grid implements ActionListener {
         }
     }
 
-    public void countBombs(Position[][] cells, int row, int col){
+    private void countBombs(Position[][] cells, int row, int col){
         Position cell = cells[row][col];
         int vertexCount = cells.length;
         int edgeCount = cells[0].length;
@@ -119,17 +137,18 @@ public class  Grid implements ActionListener {
 
     }
     public Grid(JFrame frame, int vertexCount, int edgeCount) { //constructor of class
+        this.vertexCount=vertexCount;
+        this.edgeCount=edgeCount;
         cells = new Position[vertexCount][edgeCount];
-
         grid.setLayout(new GridLayout(vertexCount,edgeCount));
-        for (int a=0;a<cells.length;a++){
-            for (int b=0;b<cells.length;b++){
-                cells[a][b]=new Position();
-                cells[a][b].setRow(a);
-                cells[a][b].setCol(b);
-                grid.add(cells[a][b]);
-                cells[a][b].addActionListener(this);
-                cells[a][b].addMouseListener(cells[a][b]);
+        for (int i=0;i<cells.length;i++){
+            for (int j=0;j<cells.length;j++){
+                cells[i][j]=new Position();
+                cells[i][j].setRow(i);
+                cells[i][j].setCol(j);
+                grid.add(cells[i][j]);
+                cells[i][j].addActionListener(this);
+                cells[i][j].addMouseListener(cells[i][j]);
             }
         }
         buildGraph(vertexCount,edgeCount);
