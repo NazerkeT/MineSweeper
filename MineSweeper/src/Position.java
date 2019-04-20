@@ -14,12 +14,12 @@ public class  Position extends JButton implements ActionListener, MouseListener 
     public void setBomb(boolean flag){
         isBomb=flag;
     }
-    public boolean isFlagged(){
-        return isFlagged;
-    }
-    public void setFlagged(boolean flag){
-        this.isFlagged=flag;
-    }
+//    public boolean isFlagged(){
+//        return isFlagged;
+//    }
+//    public void setFlagged(boolean flag){
+//        this.isFlagged=flag;
+//    }
     public void setOpened(boolean opened) {isOpened = opened;}
     public boolean isOpened(){return isOpened;}
     public void setRow(int row) {this.row = row;}
@@ -30,54 +30,54 @@ public class  Position extends JButton implements ActionListener, MouseListener 
     public int getNeighborCount() {return neighborCount;}
 
     public static void callOpenFromGrid(Position cell){
-        open(cell);
+        Grid.open(cell);
     }
 
     public static void CallIncremFlagCount(boolean status){
-        if(status==true){IncremFlagCount(true);}
-        IncremFlagCount(false);
+        if(status==true){Grid.IncremFlagCount(status);}
+        else {Grid.IncremFlagCount(status);}
     }
 
-    public static void main(String [] args){
-        Position cell = new Position();
-        callOpenFromGrid(cell);
-    }
     @Override
     public void actionPerformed(ActionEvent arg0){}
     @Override
     public void mouseClicked(MouseEvent e) {
-        Position cell = this;
         System.out.println("Event has fired! ");
-        if(e.getButton()== MouseEvent.BUTTON1){
-            if (this.isBomb()) {
-//              gameOver();
-                System.out.println("Game over!");
-                //Disable screen
-                //Pop up window
+        if(!this.isOpened){
+            if(e.getButton()== MouseEvent.BUTTON1){
+                if (this.isBomb()) {
+                    System.out.println("Game over!");
+                    //Reset everything
+                    //Disable screen
+                    //Pop up window
+                }
+                else{
+                    callOpenFromGrid(this);
+                }
             }
-            else{
-//                callOpenFromGrid(cell);
-            }
-        }
-        if(e.getButton()==MouseEvent.BUTTON3){
-            if(!this.isOpened && !this.isBomb){
-                if(this.isFlagged()==false){
-                    this.setFlagged(true);
-//                    grid.flagCount++;
-                    //CallIncremFlagCount();
+            if(e.getButton()==MouseEvent.BUTTON3){
+                //Remove this if statement afterwards
+                if(!this.isFlagged){
+                    this.isFlagged=true;
+                    System.out.println("Is bomb?"+this.isBomb);
+                    if(this.isBomb){CallIncremFlagCount(true);
+                        System.out.println("Is bomb?"+this.isBomb);
+                    }
                     ImageIcon icon = new ImageIcon("resources/flag.png");
                     Image img = icon.getImage() ;
                     Image newimg = img.getScaledInstance( 30, 30,  Image.SCALE_AREA_AVERAGING ) ;
                     icon = new ImageIcon( newimg );
                     this.setIcon(icon);
                 }
-                else if(this.isFlagged()==true){
+                else if(this.isFlagged){
+                    this.isFlagged=false;
                     this.setIcon(null);
-                    this.setFlagged(false);
-//                    grid.flagCount--;
+                    if(this.isBomb){CallIncremFlagCount(false);}
+
                 }
             }
         }
+
     }
     @Override
     public void mouseEntered(MouseEvent e) { }

@@ -9,13 +9,18 @@ public class  Grid implements ActionListener {
     Container grid = new Container();
     public static Position[][] cells;
     private ArrayList<int []> options=new ArrayList<>();
-    private static final int totalNumOfBombs=20;
+    private static int totalNumOfBombs=20;
+    private static int vertexCount=9;
+    private static int edgeCount=9;
     public static int flagCount=0;
     public static int safeMoveCount=0;
 
-    public static void IncremFlagCout(boolean status){
-        if(status==true){flagCount++;}
-        flagCount--;
+    public static void IncremFlagCount(boolean status){
+        if(status==true){flagCount++;totalNumOfBombs--;
+
+        }
+        else {flagCount--;
+        totalNumOfBombs++;}
     }
 
     public static void open(Position cell){
@@ -27,14 +32,15 @@ public class  Grid implements ActionListener {
         }
         //Add color, font
         cell.setText(String.valueOf(cell.getNeighborCount()));
-        if(safeMoveCount==totalNumOfBombs-flagCount){
+        if(safeMoveCount==vertexCount*edgeCount-totalNumOfBombs-flagCount){
             System.out.println("You won!");
+            //Reset everything
             //Disable screen
             //Pop up window
         }
     }
 
-    public static void foodFill(Position [][] cells,int row,int col){
+    public static void foodFill(Position[][] cells, int row, int col){
         int vertexCount = cells.length;
         int edgeCount = cells[0].length;
         int [] points = {-1,-1,-1,0,-1,1,0,-1,0,1,1,-1,1,0,1,1};
@@ -55,7 +61,7 @@ public class  Grid implements ActionListener {
         }
     }
 
-    public void countBombs(Position [][] cells, int row, int col){
+    public void countBombs(Position[][] cells, int row, int col){
         Position cell = cells[row][col];
         int vertexCount = cells.length;
         int edgeCount = cells[0].length;
@@ -119,16 +125,17 @@ public class  Grid implements ActionListener {
         for (int a=0;a<cells.length;a++){
             for (int b=0;b<cells.length;b++){
                 cells[a][b]=new Position();
+                cells[a][b].setRow(a);
+                cells[a][b].setCol(b);
+                grid.add(cells[a][b]);
                 cells[a][b].addActionListener(this);
                 cells[a][b].addMouseListener(cells[a][b]);
-                grid.add(cells[a][b]);
             }
         }
         buildGraph(vertexCount,edgeCount);
         frame.add(grid,BorderLayout.CENTER);
         frame.setVisible(true);
     }
-    Grid(){}
     @Override
     public void actionPerformed(ActionEvent arg0){}
 
