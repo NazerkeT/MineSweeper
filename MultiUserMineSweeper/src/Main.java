@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 
 public class  Main extends JFrame implements MouseListener, ActionListener {
     private static JFrame frame = new JFrame("MineSweeperGame");
+    public static JFrame welcomeFrame;
     private static Player Player1;
     private static Player Player2;
     private static String mode;
@@ -68,15 +69,17 @@ public class  Main extends JFrame implements MouseListener, ActionListener {
         Grid.setSafeMoveCount(0);
         Grid.setSafeCellsLeft(61);
         statusOfFirst=true;
-        Player1=null;
-        Player2=null;
+        if(mode=="double"){
+            Player1=null;
+            Player2=null;
+        }
 
         Main game = new Main();
         game.WelcomeFrame();
     }
     private void WelcomeFrame(){
-        JFrame welcomeFrame = new JFrame();
-        welcomeFrame.setSize(500,400);
+        welcomeFrame = new JFrame();
+        welcomeFrame.setSize(400,400);
         welcomeFrame.setVisible(true);
         welcomeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -111,15 +114,12 @@ public class  Main extends JFrame implements MouseListener, ActionListener {
 
         welcomeFrame.add(container);
         welcomeFrame.setVisible(true);
+        welcomeFrame.setResizable(false);
 
     }
-    private Main(){
-//        frame.setSize(500,400);
-//        frame.setVisible(true);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+    private Main(){}
     public Main(boolean startGame) { //constructor of class
-        frame.setSize(500,400);
+        frame.setSize(600,450);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton reset = new JButton("Restart");
@@ -227,6 +227,7 @@ class Dialog extends JDialog implements ActionListener{
             Main.setPlayer2(player2);
             Main.setMode("double");
             this.dispose();
+            Main.welcomeFrame.dispose();
             new Main(true);
             System.out.println(name1+"  "+name2);
         }

@@ -16,7 +16,6 @@ public class  Grid implements ActionListener {
     private static int safeMoveCount=0;
     private static int safeCellsLeft=61;
 
-
     public static void setSafeMoveCount(int safeMoveCount){Grid.safeMoveCount = safeMoveCount;}
     public static void setFlagCount(int flagCount){Grid.flagCount = flagCount;}
     public static void setEdgeCount(int edgeCount){Grid.edgeCount = edgeCount;}
@@ -57,9 +56,9 @@ public class  Grid implements ActionListener {
             }
             //Add color, font
             cell.setText(String.valueOf(cell.getNeighborCount()));
-            Main.setPlayer1Info(Main.getPlayer1().getName()+": "+Main.getPlayer1().getScore());
-            Main.setPlayer2Info(Main.getPlayer2().getName()+": "+Main.getPlayer2().getScore());
             if(player!=null){
+                Main.setPlayer1Info(Main.getPlayer1().getName()+": "+Main.getPlayer1().getScore());
+                Main.setPlayer2Info(Main.getPlayer2().getName()+": "+Main.getPlayer2().getScore());
                 if(safeCellsLeft==0 && Main.getPlayer1().getScore()>Main.getPlayer2().getScore()){
                     System.out.println(Main.getPlayer1().getName()+", You won! Score: "+Main.getPlayer1().getScore());
                     Main.keepRecords(true, Main.getPlayer1());
